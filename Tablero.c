@@ -2,19 +2,11 @@
 #include <stdio.h>
 #include <time.h>
 #include "Dificultades.h"
-
-
-typedef struct Casillas
-{
-    int estado; // 0 errado, 1 ocupada, 2 destruida
-}Casillas;
-
-extern void *** tablero;
-extern int tamano;
+#include "Tablero.h"
 
 
 int Horizontal_vertical(){//0 vertical 1 horizontal
-    srand(time(NULL));    
+    srand(time(NULL));
     return rand() % 2;
 
 }
@@ -44,15 +36,19 @@ void mostrarTablero(){
                      mostrar = 'O';
                     printf("|%c", mostrar);
                 }
-                if (((Casillas *) tablero[i][j])->estado == 1){
-                     mostrar = 'S'; // se tiene que modificar pq mostrará siempre los barcos vivos y no tiene gracia
+                 else if (((Casillas *) tablero[i][j])->estado == 1 && game_over == 1){
+                     mostrar = 'S';
                     printf("|%c", mostrar);
 
                     }
-                if (((Casillas *) tablero[i][j])->estado == 2){
+                else if (((Casillas *) tablero[i][j])->estado == 2){
                      mostrar = 'X';
                     printf("|%c", mostrar);
                     }    
+                
+                else {
+                    printf("| ");
+                }
                 }
             }
         printf("|\n");
@@ -101,18 +97,19 @@ void insertar_barco(int numero, int medida){ //numero = canridad de bascos de es
 
         } while (!sePuedeColocar);
 
-        // Colocar el barco
-        printf("colocando barco: %d / %d orienracion: %d\n",x,y,orientacion);
         if (orientacion == 1) {
             for (int j = x; j < x + medida; j++) {
                 tablero[j][y] = malloc(sizeof(Casillas));
                 ((Casillas *)tablero[j][y])->estado = 1;
+                barcos_f +=1;
 
             }
         } else {
             for (int j = y; j < y + medida; j++) {              
                 tablero[x][j] = malloc(sizeof(Casillas));
                 ((Casillas *)tablero[x][j])->estado = 1;
+                barcos_f +=1;
+
             }
         }
     }
@@ -121,7 +118,6 @@ void insertar_barco(int numero, int medida){ //numero = canridad de bascos de es
 void llenarTablero(Dificultades * dificultad){
     for (int i = 0; i < 4; i++){
         int cantidad = dificultad->barcos[i];
-        printf("@@@ %d\n",cantidad);
         insertar_barco(cantidad, i+2);
     }
 
@@ -129,11 +125,20 @@ void llenarTablero(Dificultades * dificultad){
 }
 
 void limpiar(){
-    for (int i = 0; i < tamano; i++) {
-        for (int j = 0; j < tamano; j++) {
-                free(tablero[i][j]);
+    if (tablero != NULL) {
+        for (int i = 0; i < tamano; i++) {
+            if (tablero[i] != NULL) {
+                for (int j = 0; j < tamano; j++) {
+                    if (tablero[i][j] != NULL) {
+                        free(tablero[i][j]);
+                        tablero[i][j] = NULL;
+                    }
+                }
+                free(tablero[i]);
+                tablero[i] = NULL;
+            }
         }
-        free(tablero[i]);
+        free(tablero);
+        tablero = NULL;
     }
-    free(tablero);
 }

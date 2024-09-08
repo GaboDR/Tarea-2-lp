@@ -8,6 +8,8 @@ typedef struct Mano
 } Mano;
 
 extern Mano Cartas;
+extern int canon_caido;
+extern int tamano;
 void inicializarMazo();
 void mostrarMazo();
 void usarCarta();
@@ -17,5 +19,8 @@ void * disparoGrande(int x, int y);
 void * disparoLineal(int x, int y);
 void * disparoRadar(int x, int y);
 void * disparo500KG(int x, int y);
+
+void disparar(int x, int y);
+void liberarMano();
 
 #endif

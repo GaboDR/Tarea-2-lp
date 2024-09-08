@@ -11,10 +11,10 @@ int seleccionNiveles(Dificultades * dificultad){
     printf("1. Facil  -> 11 X 11 , 5 Barcos\n");
     printf("2. Medio  -> 17 X 17 , 7 Barcos\n");
     printf("3. Dificil -> 21 X 21 , 9 Barcos\n");
-    printf("Ingrese un numero: ");
     
+    while (opcion<1 || opcion>3){
+    printf("Ingrese un numero: ");
     scanf("%d", &opcion);
-
     switch (opcion) {
         case 1:
             dificultad->dimensiones = 11;
@@ -47,5 +47,8 @@ int seleccionNiveles(Dificultades * dificultad){
         default:
             printf("Opción no válida. Por favor, ingrese un número entre 1 y 3.\n");
     }
+
+    }
+    
     return dificultad->dimensiones;
 }

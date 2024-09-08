@@ -9,6 +9,8 @@ void *** tablero;
 Mano Cartas;
 int tamano;
 int canon_caido = 0;
+int game_over = 0;
+extern int barcos_f;
 
 Dificultades * dificultad; 
 
@@ -19,12 +21,29 @@ int main(int argc, char const *argv[])
 
     tamano = seleccionNiveles(dificultad);
     inicializarTablero(tamano);
-    mostrarTablero();
     llenarTablero(dificultad);
-    mostrarTablero();
     inicializarMazo();
+    int turno =1;
+    while (barcos_f >0 && turno <=dificultad->turnos)
+    {
+    printf("Turno: %d\n",turno++);
+    mostrarTablero();
     mostrarMazo();
+    usarCarta();
+    }
+    game_over = 1;
+    if (barcos_f == 0)
+    {
+        printf("TODOS LOS BARCOS DESTRUIDOS , DEFENZA EXITOSA !");
+    }
+    else{
+        printf("PERDISTE ");
+    }
+    printf("\n Tablero final:\n");
+    mostrarTablero();
+    liberarMano();
     limpiar();
+
 }
 /*
 {
