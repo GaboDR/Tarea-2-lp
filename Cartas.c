@@ -4,7 +4,6 @@
 #include "Tablero.h"
 
 int barcos_f;
-Mano Cartas;
 typedef void * (*FuncionDisparo)(int, int);
 
 void liberarMano() {
