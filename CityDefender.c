@@ -3,7 +3,6 @@
 #include "Cartas.h"
 #include "Tablero.h"
 #include "Dificultades.h"
-#include "consolas.c"
 
 void *** tablero;
 Mano Cartas;
@@ -13,6 +12,64 @@ int game_over = 0;
 extern int barcos_f;
 
 Dificultades * dificultad; 
+
+/*
+***
+Parametro 1 : Dificultades * dificultad
+***
+Retorno: int
+***
+Esta función permite al usuario seleccionar un nivel de dificultad entre tres opciones: Fácil, Medio y Difícil. Cada opción asigna diferentes valores de dimensiones del tablero, número de barcos y turnos disponibles. Devuelve el tamaño del tablero en función de la dificultad seleccionada.
+*/
+int seleccionNiveles(Dificultades * dificultad){
+    
+    int opcion;
+    printf("Selecciona la Dificultad:\n");
+    printf("1. Facil  -> 11 X 11 , 5 Barcos\n");
+    printf("2. Medio  -> 17 X 17 , 7 Barcos\n");
+    printf("3. Dificil -> 21 X 21 , 9 Barcos\n");
+    
+    while (opcion<1 || opcion>3){
+    printf("Ingrese un numero: ");
+    scanf("%d", &opcion);
+    switch (opcion) {
+        case 1:
+            dificultad->dimensiones = 11;
+            dificultad->barcos[0] = 2;
+            dificultad->barcos[1] = 1;
+            dificultad->barcos[2] = 1;
+            dificultad->barcos[3] = 1;
+            dificultad->turnos = 30;
+
+            printf("Has seleccionado: Facil\n");
+            break;
+        case 2:
+            dificultad->dimensiones = 17;
+            dificultad->barcos[0] = 3;
+            dificultad->barcos[1] = 2;
+            dificultad->barcos[2] = 1;
+            dificultad->barcos[3] = 1;
+            dificultad->turnos = 25;
+            printf("Has seleccionado: Medio\n");
+            break;
+        case 3:
+            dificultad->dimensiones = 21;
+            dificultad->barcos[0] = 3;
+            dificultad->barcos[1] = 2;
+            dificultad->barcos[2] = 2;
+            dificultad->barcos[3] = 2;
+            dificultad->turnos = 15;
+            printf("Has seleccionado: Dificil\n");
+            break;
+        default:
+            printf("Opción no válida. Por favor, ingrese un número entre 1 y 3.\n");
+    }
+
+    }
+    
+    return dificultad->dimensiones;
+}
+
 
 int main(int argc, char const *argv[])
 {
@@ -37,33 +94,12 @@ int main(int argc, char const *argv[])
         printf("TODOS LOS BARCOS DESTRUIDOS , DEFENZA EXITOSA !");
     }
     else{
-        printf("PERDISTE ");
+        printf("PERDISTE :(");
     }
     printf("\n Tablero final:\n");
     mostrarTablero();
     liberarMano();
     limpiar();
+    free(dificultad);
 
 }
-/*
-{
-    tablero = (void ***) malloc(tamano * sizeof(void **));
-    for(int i = 0; i < tamano; i++){
-        tablero[i] = (void **) malloc(tamano * sizeof(void *));
-        for(int j = 0; j < tamano; j++){
-            int *estado = (int *) malloc(sizeof(int));
-            *estado = 0;
-
-            tablero[i][j] = (void *) malloc( sizeof(Casilla));
-            Casilla *casilla = (Casilla *) tablero[i][j];
-            //(Casilla *) tablero[i][j] = casilla;
-            casilla->ocupacion = 0;
-            casilla->barco=NULL;
-            //((int *) tablero[i])[j] = tamano*i + j;
-            printf("|%3d",*estado);
-        }
-        printf("|\n");
-    }
-    return 0;
-}
-*/

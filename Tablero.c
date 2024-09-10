@@ -5,7 +5,7 @@
 #include "Tablero.h"
 
 
-int Horizontal_vertical(){//0 vertical 1 horizontal
+int Horizontal_vertical(){
     srand(time(NULL));
     return rand() % 2;
 
@@ -56,7 +56,7 @@ void mostrarTablero(){
         }
     }
 
-void insertar_barco(int numero, int medida){ //numero = canridad de bascos de esa medida
+void insertar_barco(int numero, int medida){
 
     srand(time(NULL));
 
@@ -125,20 +125,18 @@ void llenarTablero(Dificultades * dificultad){
 }
 
 void limpiar(){
-    if (tablero != NULL) {
-        for (int i = 0; i < tamano; i++) {
-            if (tablero[i] != NULL) {
-                for (int j = 0; j < tamano; j++) {
-                    if (tablero[i][j] != NULL) {
-                        free(tablero[i][j]);
-                        tablero[i][j] = NULL;
-                    }
+    for (int i = 0; i < tamano; i++) {
+        if (tablero[i] != NULL) {
+            for (int j = 0; j < tamano; j++) {
+                if (tablero[i][j] != NULL) {
+                    free(tablero[i][j]);
+                    tablero[i][j] = NULL;
                 }
-                free(tablero[i]);
-                tablero[i] = NULL;
             }
+            free(tablero[i]);
+            tablero[i] = NULL;
         }
-        free(tablero);
-        tablero = NULL;
     }
+    free(tablero);
+    tablero = NULL;
 }

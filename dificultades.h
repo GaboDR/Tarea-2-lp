@@ -7,5 +7,4 @@ typedef struct Dificultades {
     int turnos;
 } Dificultades;
 
-int seleccionNiveles(Dificultades * dificultad);
-#endif // DIFICULTADES_H
+#endif 
